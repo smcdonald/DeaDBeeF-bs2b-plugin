@@ -97,6 +97,10 @@ bs2b_enabled (void) {
 
 static const char settings_dlg[] =
     "property \"Enable\" checkbox bs2b.enable 0;\n"
+
+    // FIXME: These should ideally be horizontal sliders, not text entry.
+    //        plugins/gtkui/pluginconf.c needs to be modified in order to
+    //        support this behaviour.
     "property \"Crossfeed level (dB * 10)\" entry bs2b.feed 45;\n"
     "property \"Cutoff filter (Hz)\" entry bs2b.fcut 700;\n"
 ;
