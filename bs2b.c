@@ -28,8 +28,6 @@ static DB_dsp_t plugin;
 DB_functions_t *deadbeef;
 
 static t_bs2bdp dp = 0;
-static intptr_t tid = 0;
-static uintptr_t mutex = 0;
 static short enabled = 0;
 static uint32_t level = ( (uint32_t)700 | ((uint32_t)45 << 16) );
 static int savedrate = 44100;
