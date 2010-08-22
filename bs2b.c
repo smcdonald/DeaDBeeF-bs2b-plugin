@@ -88,6 +88,13 @@ bs2b_reset (void) {
 
 static void
 bs2b_enable (int e) {
+    if (e != enabled) {
+        deadbeef->conf_set_int ("bs2b.enable", e);
+        if (e && !enabled) {
+            bs2b_reset ();
+        }
+        enabled = e;
+    }
     return;
 }
 
