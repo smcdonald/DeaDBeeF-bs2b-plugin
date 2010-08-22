@@ -65,6 +65,7 @@ bs2b_plugin_start (void) {
 
 static int
 bs2b_plugin_stop (void) {
+    deadbeef->ev_unsubscribe (DB_PLUGIN (&plugin), DB_EV_CONFIGCHANGED, DB_CALLBACK (bs2b_on_configchanged), 0);
     bs2b_close (dp);
 }
 
