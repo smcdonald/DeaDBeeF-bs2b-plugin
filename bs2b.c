@@ -45,7 +45,7 @@ bs2b_on_configchanged (DB_event_t *ev, uintptr_t data) {
         enabled = e;
     }
 
-    uint32_t l = ( ((uint32_t)deadbeef->conf_get_int ("bs2b.fcut", 700)) | ((uint32_t)deadbeef->conf_get_int ("bs2b.feed", 45) << 16) );
+    uint32_t l = ( ((uint32_t)deadbeef->conf_get_int ("bs2b.fcut", 700)) | ((uint32_t)(deadbeef->conf_get_float ("bs2b.feed", 4.5) * 10) << 16) );
     if (l != level) {
         bs2b_set_level (dp, l);
         level = l;
@@ -57,7 +57,7 @@ bs2b_on_configchanged (DB_event_t *ev, uintptr_t data) {
 static int
 bs2b_plugin_start (void) {
     enabled = deadbeef->conf_get_int ("bs2b.enable", 0);
-    level = ( ((uint32_t)deadbeef->conf_get_int ("bs2b.fcut", 700)) | ((uint32_t)deadbeef->conf_get_int ("bs2b.feed", 45) << 16) );
+    level = ( ((uint32_t)deadbeef->conf_get_int ("bs2b.fcut", 700)) | ((uint32_t)(deadbeef->conf_get_float ("bs2b.feed", 4.5) * 10) << 16) );
     deadbeef->ev_subscribe (DB_PLUGIN (&plugin), DB_EV_CONFIGCHANGED, DB_CALLBACK (bs2b_on_configchanged), 0);
     dp = bs2b_open ();
     bs2b_set_level (dp, level);
@@ -105,12 +105,8 @@ bs2b_enabled (void) {
 
 static const char settings_dlg[] =
     "property \"Enable\" checkbox bs2b.enable 0;\n"
-
-    // FIXME: These should ideally be horizontal sliders, not text entry.
-    //        plugins/gtkui/pluginconf.c needs to be modified in order to
-    //        support this behaviour.
-    "property \"Crossfeed level (dB * 10)\" entry bs2b.feed 45;\n"
-    "property \"Cutoff filter (Hz)\" entry bs2b.fcut 700;\n"
+    "property \"Crossfeed level (dB)\" hscale[1.0,15.0,0.1] bs2b.feed 4.5;\n"
+    "property \"Cutoff filter (Hz)\" hscale[100,2000,1] bs2b.fcut 700;\n"
 ;
 
 static DB_dsp_t plugin = {
